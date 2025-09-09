@@ -6,15 +6,15 @@ import fs from 'fs'
 import Features from "../../utils/features.js";
 
 export const getAllBrands = asyncHandler(async (req, res) => {
-  const count = await Brand.countDocuments();
+  // const count = await Brand.countDocuments();
   const features = new Features(Brand.find(), req.query)
     .filter()
     .sort()
     .limitFields()
     .search("brand")
-    .pagination(count);
+    // .pagination(count);
   const brands = await features.mongooseQuery;
-  res.json({ message: "Success", results: count, metadata: features.paginationResult, data: brands });
+  res.json({ message: "Success", metadata: features.paginationResult, data: brands });
 });
 
 export const getBrand = asyncHandler(async (req, res, next) => {
