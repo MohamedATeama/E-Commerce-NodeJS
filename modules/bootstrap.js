@@ -14,6 +14,7 @@ import userRouter from './user/user.routes.js';
 import wishlistRouter from './wishlist/wishlist.routes.js';
 
 const mountRoutes = (app) => {
+  app.get("/", (req, res) => {res.json({message: "Welcome in our ECommerce project"})})
   app.use("/api/v1/categories", categoryRouter);
   app.use("/api/v1/subcategories", subcategoryRouter);
   app.use("/api/v1/brands", brandRouter);
