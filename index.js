@@ -3,10 +3,27 @@ import dbConnection from './config/database.js'
 import mountRoutes from './modules/bootstrap.js'
 import dotenv from 'dotenv'
 import cors from 'cors';
+import expressAsyncHandler from 'express-async-handler';
 
 dotenv.config()
 const port = process.env.PORT || 3000;
 const app = express();
+
+app.post('api/webhook', express.json({ type: 'application/json' }), expressAsyncHandler((req, res) => {
+    const signature = req.headers['stripe-signature'].toString();
+      const event = stripe.webhooks.constructEvent(
+        req.body,
+        signature,
+        process.env.WEBHOOK_SECRET
+      );
+      let checkout 
+  if (event.type == "checkout.session.completed") {
+        checkout = event.data.object
+      }
+
+    res.json({ message: "success", data: checkout });
+}));
+
 app.use(cors())
 app.use('/uploads', express.static('uploads'));
 app.use(express.json());
