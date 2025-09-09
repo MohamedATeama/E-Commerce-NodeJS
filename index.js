@@ -14,7 +14,7 @@ app.post('api/webhook', express.json({ type: 'application/json' }), expressAsync
       const event = stripe.webhooks.constructEvent(
         req.body,
         signature,
-        process.env.WEBHOOK_SECRET
+        "whsec_92qK4GKgMjjsUAQLuau4ycAoc3WsxKEg"
       );
       let checkout 
   if (event.type == "checkout.session.completed") {
