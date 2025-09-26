@@ -1,6 +1,6 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { allowedTo, protectedRoutes } from "../auth/auth.controller.js";
-import { createCashOrder, createCheckoutSession, getAllOrders, getUserOrders } from "./order.controller.js";
+import { createCashOrder, createCheckoutSession, createOnlineOrder, getAllOrders, getUserOrders } from "./order.controller.js";
 
 const orderRouter = Router();
 
@@ -15,5 +15,7 @@ orderRouter.route("/userOrders")
 
 orderRouter.route("/checkout/:id")
   .post(protectedRoutes, allowedTo("user"), createCheckoutSession)
+
+orderRouter.post('/webhook', express.json({ type: 'application/json' }), createOnlineOrder)
 
 export default orderRouter
